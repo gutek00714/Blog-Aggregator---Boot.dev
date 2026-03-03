@@ -4,11 +4,13 @@ import (
 	"fmt"
 
 	"github.com/gutek00714/Blog-Aggregator---Boot.dev/internal/config"
+	"github.com/gutek00714/Blog-Aggregator---Boot.dev/internal/database"
 )
 
 // state, command, commands structs run register methods
 type state struct {
 	Config *config.Config
+	db     *database.Queries
 }
 
 type command struct {

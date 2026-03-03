@@ -1,10 +1,14 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"os"
 
 	"github.com/gutek00714/Blog-Aggregator---Boot.dev/internal/config"
+	"github.com/gutek00714/Blog-Aggregator---Boot.dev/internal/database"
+
+	_ "github.com/lib/pq"
 )
 
 func main() {
@@ -14,9 +18,19 @@ func main() {
 		return
 	}
 
+	//open a connection to database
+	db, err := sql.Open("postgres", cfg.DBURL)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	dbQueries := database.New(db)
+
 	// store the config in a new instance of the state struct
 	programState := &state{
 		Config: &cfg,
+		db:     dbQueries,
 	}
 
 	// initialize the map
@@ -26,6 +40,7 @@ func main() {
 
 	// register the command
 	cmds.register("login", handlerLogin)
+	cmds.register("register", handlerRegister)
 
 	// check os.Args length (if enough arguments were provided)
 	if len(os.Args) < 2 {

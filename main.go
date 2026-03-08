@@ -48,6 +48,7 @@ func main() {
 	cmds.register("feeds", handlerPrintFeeds)
 	cmds.register("follow", middlewareLoggedIn(handlerFollow))
 	cmds.register("following", middlewareLoggedIn(handlerFollowing))
+	cmds.register("unfollow", middlewareLoggedIn(handlerUnfollow))
 
 	// check os.Args length (if enough arguments were provided)
 	if len(os.Args) < 2 {

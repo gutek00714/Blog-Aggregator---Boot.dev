@@ -9,7 +9,7 @@ import (
 	"github.com/gutek00714/Blog-Aggregator---Boot.dev/internal/database"
 )
 
-func handlerFollow(s *state, cmd command) error {
+func handlerFollow(s *state, cmd command, user database.User) error {
 	if len(cmd.Args) != 1 {
 		return fmt.Errorf("usage: follow <url>")
 	}
@@ -22,11 +22,11 @@ func handlerFollow(s *state, cmd command) error {
 		return err
 	}
 
-	// get user id
-	user, err := s.db.GetUser(context.Background(), s.Config.CurrentUserName)
-	if err != nil {
-		return err
-	}
+	// // get user id
+	// user, err := s.db.GetUser(context.Background(), s.Config.CurrentUserName)
+	// if err != nil {
+	// 	return err
+	// }
 
 	follow, err := s.db.CreateFeedFollow(context.Background(), database.CreateFeedFollowParams{
 		ID:        uuid.New(),
@@ -44,12 +44,12 @@ func handlerFollow(s *state, cmd command) error {
 	return nil
 }
 
-func handlerFollowing(s *state, cmd command) error {
-	// get user
-	user, err := s.db.GetUser(context.Background(), s.Config.CurrentUserName)
-	if err != nil {
-		return err
-	}
+func handlerFollowing(s *state, cmd command, user database.User) error {
+	// // get user
+	// user, err := s.db.GetUser(context.Background(), s.Config.CurrentUserName)
+	// if err != nil {
+	// 	return err
+	// }
 
 	rows, err := s.db.GetFeedFollowsForUser(context.Background(), user.ID)
 	if err != nil {

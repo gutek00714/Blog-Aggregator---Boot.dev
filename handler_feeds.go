@@ -9,13 +9,13 @@ import (
 	"github.com/gutek00714/Blog-Aggregator---Boot.dev/internal/database"
 )
 
-func handlerAddFeed(s *state, cmd command) error {
-	// get the user from database
-	user := s.Config.CurrentUserName
-	user_db, err := s.db.GetUser(context.Background(), user)
-	if err != nil {
-		return err
-	}
+func handlerAddFeed(s *state, cmd command, user database.User) error {
+	// // get the user from database
+	// user := s.Config.CurrentUserName
+	// user_db, err := s.db.GetUser(context.Background(), user)
+	// if err != nil {
+	// 	return err
+	// }
 
 	// check if cmf.args has 2 arguments
 	if len(cmd.Args) != 2 {
@@ -32,7 +32,7 @@ func handlerAddFeed(s *state, cmd command) error {
 		UpdatedAt: time.Now().UTC(),
 		Name:      name,
 		Url:       url,
-		UserID:    user_db.ID,
+		UserID:    user.ID,
 	})
 	if err != nil {
 		return fmt.Errorf("couldn't create feed: %v", err)
